@@ -181,6 +181,9 @@ static UIImageView *imageView;
     // this is appropriate for detecting the runtime screen environment
     device.iPhone6 = (device.iPhone && limit == 667.0);
     device.iPhone6Plus = (device.iPhone && limit == 736.0);
+	device.iPhoneX = (device.iPhone && limit == 812.0);
+	device.iPhoneXR = (device.iPhone && limit == 896.0);
+	device.iPhoneXSMax = (device.iPhone && limit == 896.0);
     
     return device;
 }
@@ -230,10 +233,18 @@ static UIImageView *imageView;
     BOOL isLandscape = supportsLandscape &&
     (currentOrientation == UIInterfaceOrientationLandscapeLeft || currentOrientation == UIInterfaceOrientationLandscapeRight);
     
-    if (device.iPhone5) { // does not support landscape
-        imageName = isLandscape ? nil : [imageName stringByAppendingString:@"-568h"];
+    if (device.iPhone4) { // does not support landscape
+        imageName = [imageName stringByAppendingString:@"_640x960"];
+    } else if (device.iPhone5) { // does not support landscape
+        imageName = isLandscape ? nil : [imageName stringByAppendingString:@"_640x960"];
     } else if (device.iPhone6) { // does not support landscape
-        imageName = isLandscape ? nil : [imageName stringByAppendingString:@"-667h"];
+        imageName = isLandscape ? nil : [imageName stringByAppendingString:@"_750x1334"];
+    } else if (device.iPhoneX) { // does not support landscape
+        imageName = isLandscape ? nil : [imageName stringByAppendingString:@"_1225x2436"];
+    } else if (device.iPhoneXR) { // does not support landscape
+        imageName = isLandscape ? nil : [imageName stringByAppendingString:@"_828x1792"];
+    } else if (device.iPhoneXSMax) { // does not support landscape
+        imageName = isLandscape ? nil : [imageName stringByAppendingString:@"_1242x2688"];
     } else if (device.iPhone6Plus) { // supports landscape
         if (isOrientationLocked) {
             imageName = [imageName stringByAppendingString:(supportsLandscape ? @"-Landscape" : @"")];
